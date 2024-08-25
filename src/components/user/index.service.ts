@@ -161,6 +161,37 @@ export class UserService {
     return user;
   }
 
+  async signUpWithEmailAndPassword({
+    nickname,
+    username,
+    email,
+    password,
+  }: {
+    nickname: string;
+    username: string;
+    email: string;
+    password: string;
+  }): Promise<IUserAdminSideDetailed> {
+    const isEmailAlreadyExist = await UserModel.findOne({ email });
+    if (isEmailAlreadyExist) {
+      throw new UserEmailAlreadyExistError();
+    }
+
+    const isUsernameAlreadyExist = await UserModel.findOne({ username });
+    if (isUsernameAlreadyExist) {
+      throw new UserUsernameAlreadyExistError();
+    }
+
+    const user = await this.create({
+      nickname,
+      username,
+      email,
+      password,
+    });
+
+    return user;
+  }
+
   public static async checkAuthToken(authToken: string): Promise<void> {
     const user = await UserModel.findOne({ authToken });
 

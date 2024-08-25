@@ -42,3 +42,19 @@ export const signInWithEmailAndPasswordSchema =
       .min(UserConstraintsProvider.password.minlength)
       .required(),
   }).required();
+
+export const signUpWithEmailAndPasswordSchema =
+  RichJoi.object<IUserUpdatePayload>({
+    nickname: RichJoi.string()
+      .min(UserConstraintsProvider.nickname.minlength)
+      .max(UserConstraintsProvider.nickname.maxlength)
+      .required(),
+    username: RichJoi.string()
+      .min(UserConstraintsProvider.username.minlength)
+      .max(UserConstraintsProvider.username.maxlength)
+      .required(),
+    email: RichJoi.string().email().required(),
+    password: RichJoi.string()
+      .min(UserConstraintsProvider.password.minlength)
+      .required(),
+  }).required();

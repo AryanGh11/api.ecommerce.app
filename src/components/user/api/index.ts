@@ -3,6 +3,7 @@ import {
   validateCreate,
   validateUpdate,
   validateSignInWithEmailAndPassword,
+  validateSignUpWithEmailAndPassword,
 } from "./index.api";
 
 export {
@@ -10,4 +11,5 @@ export {
   validateCreate,
   validateUpdate,
   validateSignInWithEmailAndPassword,
+  validateSignUpWithEmailAndPassword,
 };

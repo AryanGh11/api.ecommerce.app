@@ -10,6 +10,7 @@ import {
   validateGetOne,
   validateUpdate,
   validateSignInWithEmailAndPassword,
+  validateSignUpWithEmailAndPassword
 } from "./api";
 
 export const router = Router();
@@ -81,6 +82,29 @@ router.post(
     const password = req.body.password;
     try {
       const user = await service.signInWithEmailAndPassword({
+        email,
+        password,
+      });
+      res.json(user);
+    } catch (e) {
+      ErrorHandler.handleError(e, res);
+    }
+  }
+);
+
+// Sign up with email and password
+router.post(
+  "/auth/sign-up",
+  validateSignUpWithEmailAndPassword,
+  async (req: Request, res: Response) => {
+    const nickname = req.body.nickname;
+    const username = req.body.username;
+    const email = req.body.email;
+    const password = req.body.password;
+    try {
+      const user = await service.signUpWithEmailAndPassword({
+        nickname,
+        username,
         email,
         password,
       });

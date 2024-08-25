@@ -1,8 +1,9 @@
+import "./extensions";
+import cors from "cors";
 import dotenv from "dotenv";
 import router from "./routes";
 import express from "express";
 import mongoose from "mongoose";
-import "./extensions";
 
 dotenv.config();
 
@@ -11,6 +12,15 @@ const PORT = 3002;
 
 // Middleware to parse JSON
 app.use(express.json());
+
+// CORS configuration
+const corsOptions = {
+  origin: "http://localhost:3000",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 // MongoDB connection
 if (!process.env.MONGO_URL) throw new Error("MONGO_URL is not defined");
@@ -25,5 +35,5 @@ app.use("/", router);
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on Port ${PORT}`);
 });

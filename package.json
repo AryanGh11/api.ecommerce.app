@@ -1,0 +1,21 @@
+{
+  "name": "api.ecommerce.app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon src/index.ts"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.19.2",
+    "joi": "^17.13.3",
+    "mongoose": "^8.5.4"
+  }
+}

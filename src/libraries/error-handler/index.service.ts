@@ -65,10 +65,7 @@ class ErrorHandler {
    */
   private static sendErrorResponse(error: AppError, responseStream: Response) {
     responseStream.status(error.httpCode).json({
-      error: {
-        key: error.errorUniqueKey,
-        message: error.errorMessage,
-      },
+      error: error.errorMessage,
     });
   }
 

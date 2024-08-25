@@ -41,4 +41,4 @@ export const updateSchema = RichJoi.object<IProductUpdatePayload>({
     .min(ProductConstraintsProvider.quantity.min)
     .optional(),
   images: RichJoi.array().items(RichJoi.string()).optional(),
-}).optional();
+}).required();

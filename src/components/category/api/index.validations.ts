@@ -31,4 +31,4 @@ export const updateSchema = RichJoi.object<ICategoryUpdatePayload>({
     .max(CategoryConstraintsProvider.key.maxlength)
     .optional(),
   products: RichJoi.objectIdArray().optional(),
-}).optional();
+}).required();

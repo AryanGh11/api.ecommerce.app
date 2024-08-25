@@ -41,7 +41,7 @@ export const buildAdminSideDetailedUser = async function (
   const nickname: string = document.nickname;
   const username: string = document.username;
   const email: string = document.email;
-  const password: string = document.password;
+  const authToken: string = document.authToken;
   const createdAt = document.createdAt.toISOString();
   const updatedAt = document.updatedAt.toISOString();
 
@@ -50,7 +50,7 @@ export const buildAdminSideDetailedUser = async function (
     nickname,
     username,
     email,
-    password,
+    authToken,
     createdAt,
     updatedAt,
   };

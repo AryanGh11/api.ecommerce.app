@@ -2,9 +2,15 @@ import ErrorHandler from "../../libraries/error-handler";
 
 import { UserService } from "./index.service";
 import { Router, Request, Response } from "express";
-import { validateCreate, validateGetOne, validateUpdate } from "./api";
 import { IUserCreatePayload, IUserUpdatePayload } from "./index.interfaces";
 import { resourceSuccessfullyDeleted } from "../../constants/resourceSuccessfullyDeleted";
+
+import {
+  validateCreate,
+  validateGetOne,
+  validateUpdate,
+  validateSignInWithEmailAndPassword,
+} from "./api";
 
 export const router = Router();
 
@@ -65,3 +71,22 @@ router.delete("/:id", async (req: Request, res: Response) => {
     ErrorHandler.handleError(e, res);
   }
 });
+
+// Sign in with email and password
+router.post(
+  "/auth/sign-in",
+  validateSignInWithEmailAndPassword,
+  async (req: Request, res: Response) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    try {
+      const user = await service.signInWithEmailAndPassword({
+        email,
+        password,
+      });
+      res.json(user);
+    } catch (e) {
+      ErrorHandler.handleError(e, res);
+    }
+  }
+);

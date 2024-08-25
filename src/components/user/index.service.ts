@@ -1,3 +1,6 @@
+import crypto from "crypto";
+
+import { PasswordService } from "../../libraries/password";
 import { UserModel, IUserDocument, IUserStaticMethods } from "./data-access";
 
 import {
@@ -11,6 +14,7 @@ import {
 } from "../../composable/repository-service";
 
 import {
+  UserInvalidPasswordError,
   UserDocumentsNotFoundError,
   UserEmailAlreadyExistError,
   UserUsernameAlreadyExistError,
@@ -70,7 +74,15 @@ export class UserService {
     const duplicateEmail = users.find((user) => user.email === payload.email);
     if (duplicateEmail) throw new UserEmailAlreadyExistError();
 
-    const document = await this.repositoryService.create(payload);
+    // Generate a random auth token
+    const authToken = crypto.randomBytes(16).toString("hex");
+
+    const userPayload = {
+      ...payload,
+      authToken,
+    };
+
+    const document = await this.repositoryService.create(userPayload);
 
     return buildAdminSideDetailedUser(document);
   }
@@ -120,5 +132,40 @@ export class UserService {
 
   async delete(id: string): Promise<void> {
     return await this.repositoryService.delete(id);
+  }
+
+  async signInWithEmailAndPassword({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }): Promise<IUserAdminSideDetailed> {
+    const document = await UserModel.findOne({ email });
+
+    if (!document) {
+      throw new UserDocumentsNotFoundError();
+    }
+
+    const isPasswordValid = await PasswordService.compare(
+      password,
+      document.password
+    );
+
+    if (!isPasswordValid) {
+      throw new UserInvalidPasswordError();
+    }
+
+    const user = await buildAdminSideDetailedUser(document);
+
+    return user;
+  }
+
+  public static async checkAuthToken(authToken: string): Promise<void> {
+    const user = await UserModel.findOne({ authToken });
+
+    if (!user) {
+      throw new UserDocumentsNotFoundError();
+    }
   }
 }

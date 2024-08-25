@@ -44,3 +44,18 @@ export class UserEmailAlreadyExistError extends AppError {
     });
   }
 }
+
+/**
+ * @description An error thrown when user's password is invalid.
+ * @extends {AppError}
+ */
+export class UserInvalidPasswordError extends AppError {
+  constructor() {
+    super({
+      errorUniqueKey: "invalid_password",
+      errorMessage: "Invalid password",
+      httpCode: 404,
+      isOperational: true,
+    });
+  }
+}

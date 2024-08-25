@@ -33,4 +33,12 @@ export const updateSchema = RichJoi.object<IUserUpdatePayload>({
   password: RichJoi.string()
     .min(UserConstraintsProvider.password.minlength)
     .optional(),
-}).optional();
+}).required();
+
+export const signInWithEmailAndPasswordSchema =
+  RichJoi.object<IUserUpdatePayload>({
+    email: RichJoi.string().email().required(),
+    password: RichJoi.string()
+      .min(UserConstraintsProvider.password.minlength)
+      .required(),
+  }).required();

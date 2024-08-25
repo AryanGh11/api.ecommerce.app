@@ -4,6 +4,7 @@ import UserConstraintsProvider from "../index.constraintsProvider";
 import { Schema } from "mongoose";
 import { hydrateSchema } from "../index.schemaHydrator";
 import { USER, USERS } from "../../../constants/mongoose";
+import { PasswordService } from "../../../libraries/password";
 
 import {
   IUserModel,
@@ -50,11 +51,24 @@ export const schema = new Schema<
       type: String,
       minlength: UserConstraintsProvider.password.minlength,
     },
+    authToken: {
+      required: true,
+      type: String,
+      unique: true,
+      trim: true,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+// Middleware to hash password before saving
+schema.pre<IUserDocument>("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await PasswordService.hash(this.password);
+  next();
+});
 
 export type UserSchema = typeof schema;
 

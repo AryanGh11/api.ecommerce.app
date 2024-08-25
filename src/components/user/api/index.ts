@@ -1,3 +1,13 @@
-import { validateGetOne, validateCreate, validateUpdate } from "./index.api";
+import {
+  validateGetOne,
+  validateCreate,
+  validateUpdate,
+  validateSignInWithEmailAndPassword,
+} from "./index.api";
 
-export { validateGetOne, validateCreate, validateUpdate };
+export {
+  validateGetOne,
+  validateCreate,
+  validateUpdate,
+  validateSignInWithEmailAndPassword,
+};

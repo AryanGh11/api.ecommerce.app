@@ -13,7 +13,7 @@ export interface IUserAdminSideDetailed extends IBaseAdminSideDetailed {
   nickname: string;
   username: string;
   email: string;
-  password: string;
+  authToken: string;
 }
 
 export interface IUserCreatePayload {
@@ -24,3 +24,8 @@ export interface IUserCreatePayload {
 }
 
 export interface IUserUpdatePayload extends Partial<IUserCreatePayload> {}
+
+export interface IUserSignInWithEmailAndPassword {
+  email: string;
+  password: string;
+}

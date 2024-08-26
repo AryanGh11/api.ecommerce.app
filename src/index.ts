@@ -1,5 +1,5 @@
 import "./extensions";
-import cors from "cors";
+import cors, { CorsOptions } from "cors";
 import dotenv from "dotenv";
 import router from "./routes";
 import express from "express";
@@ -14,10 +14,19 @@ const PORT = 3002;
 app.use(express.json());
 
 // CORS configuration
-const corsOptions = {
-  origin: "http://localhost:3000",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
+const allowedOrigins = [
+  "https://ecommerce-app-aryan.vercel.app",
+  "http://localhost:3000",
+];
+const corsOptions: CorsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
 };
 
 app.use(cors(corsOptions));

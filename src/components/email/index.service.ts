@@ -8,8 +8,6 @@ export default class EmailService {
 
   // Static method to initialize the transporter if not already initialized
   private static initializeTransporter() {
-    console.log(process.env.EMAIL_USER);
-    console.log(process.env.EMAIL_PASS);
     if (!EmailService.transporter) {
       EmailService.transporter = nodemailer.createTransport({
         service: "gmail",

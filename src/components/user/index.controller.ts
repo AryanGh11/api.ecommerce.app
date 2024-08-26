@@ -9,8 +9,9 @@ import {
   validateCreate,
   validateGetOne,
   validateUpdate,
+  validateSendEmailVerification,
   validateSignInWithEmailAndPassword,
-  validateSignUpWithEmailAndPassword
+  validateSignUpWithEmailAndPassword,
 } from "./api";
 
 export const router = Router();
@@ -114,3 +115,40 @@ router.post(
     }
   }
 );
+
+// Send email verification
+router.post(
+  "/auth/send-email-verification",
+  validateSendEmailVerification,
+  async (req: Request, res: Response) => {
+    try {
+      const email = req.body.email;
+      await UserService.sendVerification({
+        email,
+      });
+      res.json({ message: "Email verification sent" });
+    } catch (e) {
+      ErrorHandler.handleError(e, res);
+    }
+  }
+);
+
+// Verify email
+router.get("/auth/verify-email", async (req: Request, res: Response) => {
+  try {
+    const authToken = req.query.authToken as string;
+
+    if (!authToken) {
+      return res.status(400).json({ error: "authToken is required" });
+    }
+
+    // verify email
+    await UserService.verifyEmail(authToken);
+
+    res.redirect(
+      `${process.env.CLIENT_URL}/email-verification-response?success=true`
+    );
+  } catch (e) {
+    ErrorHandler.handleError(e, res);
+  }
+});

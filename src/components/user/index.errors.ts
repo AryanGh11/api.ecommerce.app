@@ -54,7 +54,22 @@ export class UserInvalidPasswordError extends AppError {
     super({
       errorUniqueKey: "invalid_password",
       errorMessage: "Invalid password",
-      httpCode: 404,
+      httpCode: 409,
+      isOperational: true,
+    });
+  }
+}
+
+/**
+ * @description An error thrown when user's email is already verified.
+ * @extends {AppError}
+ */
+export class UserEmailAlreadyVerifiedError extends AppError {
+  constructor() {
+    super({
+      errorUniqueKey: "email_already_verified",
+      errorMessage: "Email already verified",
+      httpCode: 409,
       isOperational: true,
     });
   }

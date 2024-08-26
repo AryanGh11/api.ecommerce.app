@@ -14,6 +14,7 @@ export interface IUserAdminSideDetailed extends IBaseAdminSideDetailed {
   username: string;
   email: string;
   authToken: string;
+  isEmailVerified: boolean;
 }
 
 export interface IUserCreatePayload {

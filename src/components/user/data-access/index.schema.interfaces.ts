@@ -8,6 +8,7 @@ export interface IUser extends IBaseSchema {
   email: string;
   password: string;
   authToken: string;
+  isEmailVerified: boolean;
 }
 
 export interface IUserDocument extends IUser, Document {

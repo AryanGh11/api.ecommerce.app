@@ -42,6 +42,7 @@ export const buildAdminSideDetailedUser = async function (
   const username: string = document.username;
   const email: string = document.email;
   const authToken: string = document.authToken;
+  const isEmailVerified: boolean = document.isEmailVerified;
   const createdAt = document.createdAt.toISOString();
   const updatedAt = document.updatedAt.toISOString();
 
@@ -51,6 +52,7 @@ export const buildAdminSideDetailedUser = async function (
     username,
     email,
     authToken,
+    isEmailVerified,
     createdAt,
     updatedAt,
   };

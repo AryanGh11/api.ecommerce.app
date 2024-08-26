@@ -4,6 +4,7 @@ import {
   getOneSchema,
   createSchema,
   updateSchema,
+  sendEmailVerificationSchema,
   signInWithEmailAndPasswordSchema,
   signUpWithEmailAndPasswordSchema,
 } from "./index.validations";
@@ -62,6 +63,18 @@ export const validateSignUpWithEmailAndPassword = (
   next: NextFunction
 ) => {
   const { error } = signUpWithEmailAndPasswordSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ error: error.details[0].message });
+  }
+  next();
+};
+
+export const validateSendEmailVerification = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { error } = sendEmailVerificationSchema.validate(req.body);
   if (error) {
     return res.status(400).json({ error: error.details[0].message });
   }

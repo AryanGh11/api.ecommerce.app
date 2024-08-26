@@ -57,6 +57,11 @@ export const schema = new Schema<
       unique: true,
       trim: true,
     },
+    isEmailVerified: {
+      required: true,
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

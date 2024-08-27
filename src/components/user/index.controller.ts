@@ -2,17 +2,9 @@ import ErrorHandler from "../../libraries/error-handler";
 
 import { UserService } from "./index.service";
 import { Router, Request, Response } from "express";
+import { validateCreate, validateGetOne, validateUpdate } from "./api";
 import { IUserCreatePayload, IUserUpdatePayload } from "./index.interfaces";
 import { resourceSuccessfullyDeleted } from "../../constants/resourceSuccessfullyDeleted";
-
-import {
-  validateCreate,
-  validateGetOne,
-  validateUpdate,
-  validateSendEmailVerification,
-  validateSignInWithEmailAndPassword,
-  validateSignUpWithEmailAndPassword,
-} from "./api";
 
 export const router = Router();
 
@@ -69,85 +61,6 @@ router.delete("/:id", async (req: Request, res: Response) => {
   try {
     await service.delete(req.params.id);
     res.json({ message: resourceSuccessfullyDeleted });
-  } catch (e) {
-    ErrorHandler.handleError(e, res);
-  }
-});
-
-// Sign in with email and password
-router.post(
-  "/auth/sign-in",
-  validateSignInWithEmailAndPassword,
-  async (req: Request, res: Response) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    try {
-      const user = await service.signInWithEmailAndPassword({
-        email,
-        password,
-      });
-      res.json(user);
-    } catch (e) {
-      ErrorHandler.handleError(e, res);
-    }
-  }
-);
-
-// Sign up with email and password
-router.post(
-  "/auth/sign-up",
-  validateSignUpWithEmailAndPassword,
-  async (req: Request, res: Response) => {
-    const nickname = req.body.nickname;
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
-    try {
-      const user = await service.signUpWithEmailAndPassword({
-        nickname,
-        username,
-        email,
-        password,
-      });
-      res.json(user);
-    } catch (e) {
-      ErrorHandler.handleError(e, res);
-    }
-  }
-);
-
-// Send email verification
-router.post(
-  "/auth/send-email-verification",
-  validateSendEmailVerification,
-  async (req: Request, res: Response) => {
-    try {
-      const email = req.body.email;
-      await UserService.sendVerification({
-        email,
-      });
-      res.json({ message: "Email verification sent" });
-    } catch (e) {
-      ErrorHandler.handleError(e, res);
-    }
-  }
-);
-
-// Verify email
-router.get("/auth/verify-email", async (req: Request, res: Response) => {
-  try {
-    const authToken = req.query.authToken as string;
-
-    if (!authToken) {
-      return res.status(400).json({ error: "authToken is required" });
-    }
-
-    // verify email
-    await UserService.verifyEmail(authToken);
-
-    res.redirect(
-      `${process.env.CLIENT_URL}/email-verification-response?success=true`
-    );
   } catch (e) {
     ErrorHandler.handleError(e, res);
   }

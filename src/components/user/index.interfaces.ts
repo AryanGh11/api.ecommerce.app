@@ -25,8 +25,3 @@ export interface IUserCreatePayload {
 }
 
 export interface IUserUpdatePayload extends Partial<IUserCreatePayload> {}
-
-export interface IUserSignInWithEmailAndPassword {
-  email: string;
-  password: string;
-}

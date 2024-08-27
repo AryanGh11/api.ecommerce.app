@@ -1,9 +1,11 @@
 import "./extensions";
-import cors, { CorsOptions } from "cors";
+import cors from "cors";
 import dotenv from "dotenv";
 import router from "./routes";
 import express from "express";
 import mongoose from "mongoose";
+
+import { CorsOptions } from "cors";
 
 dotenv.config();
 

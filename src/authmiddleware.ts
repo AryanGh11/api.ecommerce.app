@@ -1,6 +1,6 @@
 import ErrorHandler from "./libraries/error-handler";
 
-import { UserService } from "./components/user";
+import { AuthService } from "./components/auth";
 import { Request, Response, NextFunction } from "express";
 import { AuthenticationFailedError } from "./common/errors/authenticationFailed";
 
@@ -17,7 +17,7 @@ const authMiddleware = async (
 
   try {
     // If auth_token is valid, proceed to the next middleware
-    await UserService.checkAuthToken(authToken);
+    await AuthService.checkAuthToken(authToken);
     next();
   } catch (error) {
     return ErrorHandler.handleError(new AuthenticationFailedError(), res);

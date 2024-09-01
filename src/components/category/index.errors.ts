@@ -8,7 +8,7 @@ export class CategoryDocumentsNotFoundError extends AppError {
   constructor() {
     super({
       errorUniqueKey: "resources_not_found",
-      errorMessage: "Resource not found",
+      errorMessage: "Category not found",
       httpCode: 404,
       isOperational: true,
     });

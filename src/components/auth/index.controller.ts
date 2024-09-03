@@ -1,3 +1,4 @@
+import axios from "axios";
 import ErrorHandler from "../../libraries/error-handler";
 
 import { AuthService } from "./index.service";
@@ -13,6 +14,9 @@ import {
 export const router = Router();
 
 const service = new AuthService();
+
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI } =
+  process.env;
 
 // Sign in with email and password
 router.post(
@@ -54,6 +58,45 @@ router.post(
     }
   }
 );
+
+// Handle callback from google
+router.get("/google", async (req: Request, res: Response) => {
+  const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=profile email&access_type=offline&prompt=consent`;
+  res.redirect(url);
+});
+
+router.get("/google/callback", async (req: Request, res: Response) => {
+  const { code } = req.query;
+
+  if (!code) {
+    return res.status(400).json({ error: "Code is required" });
+  }
+
+  try {
+    const { data } = await axios.post("https://oauth2.googleapis.com/token", {
+      client_id: GOOGLE_CLIENT_ID,
+      client_secret: GOOGLE_CLIENT_SECRET,
+      code,
+      redirect_uri: GOOGLE_REDIRECT_URI,
+      grant_type: "authorization_code",
+    });
+
+    const { access_token } = data;
+
+    const { data: profile } = await axios.get(
+      "https://www.googleapis.com/oauth2/v1/userinfo",
+      {
+        headers: { Authorization: `Bearer ${access_token}` },
+      }
+    );
+
+    // Handle user authentication and retrieval using the profile data
+    res.redirect("/"); // Adjust this based on your frontend routing
+  } catch (error) {
+    ErrorHandler.handleError(error, res);
+    res.redirect("/login");
+  }
+});
 
 // Send email verification
 router.post(

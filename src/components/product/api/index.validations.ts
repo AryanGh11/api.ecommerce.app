@@ -7,6 +7,14 @@ import {
   IProductUpdatePayload,
 } from "../index.interfaces";
 
+export const getAllSchema = RichJoi.object({
+  title: RichJoi.string()
+    .min(ProductConstraintsProvider.title.minlength)
+    .max(ProductConstraintsProvider.title.maxlength)
+    .optional(),
+  categories: RichJoi.objectIdArray().optional(),
+}).optional();
+
 export const getOneSchema = RichJoi.objectId().required();
 
 export const createSchema = RichJoi.object<IProductCreatePayload>({
@@ -41,4 +49,8 @@ export const updateSchema = RichJoi.object<IProductUpdatePayload>({
     .min(ProductConstraintsProvider.quantity.min)
     .optional(),
   images: RichJoi.array().items(RichJoi.string()).optional(),
+  rating: RichJoi.number()
+    .min(ProductConstraintsProvider.rating.min)
+    .max(ProductConstraintsProvider.rating.max)
+    .optional(),
 }).required();

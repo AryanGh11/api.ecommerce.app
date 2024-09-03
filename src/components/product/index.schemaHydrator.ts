@@ -12,6 +12,11 @@ import {
   ICategoryAdminSideSummary,
   buildAdminSideSummaryCategory,
 } from "../category";
+import {
+  buildAdminSideSummaryTestimonial,
+  ITestimonialAdminSideSummary,
+  ITestimonialDocument,
+} from "../testimonial";
 
 export const buildAdminSideSummaryProduct = function (
   document: IProductDocument
@@ -25,6 +30,8 @@ export const buildAdminSideSummaryProduct = function (
   const price: number = document.price;
   const quantity: number = document.quantity;
   const images: string[] = document.images;
+  const rating: number = document.rating;
+  const testimonialsCount: number = document.testimonials.length;
   const createdAt = document.createdAt.toISOString();
   const updatedAt = document.updatedAt.toISOString();
 
@@ -36,6 +43,8 @@ export const buildAdminSideSummaryProduct = function (
     price,
     quantity,
     images,
+    rating,
+    testimonialsCount,
     createdAt,
     updatedAt,
   };
@@ -51,6 +60,8 @@ export const buildAdminSideDetailedProduct = async function (
 
   const populatedCategories =
     document.categories as unknown as ICategoryDocument[];
+  const populatedTestimonials =
+    document.testimonials as unknown as ITestimonialDocument[];
 
   const id: string = document._id.toString();
   const title: string = document.title;
@@ -61,6 +72,9 @@ export const buildAdminSideDetailedProduct = async function (
   const price: number = document.price;
   const quantity: number = document.quantity;
   const images: string[] = document.images;
+  const rating: number = document.rating;
+  const testimonials: ITestimonialAdminSideSummary[] =
+    populatedTestimonials.map((doc) => buildAdminSideSummaryTestimonial(doc));
   const createdAt = document.createdAt.toISOString();
   const updatedAt = document.updatedAt.toISOString();
 
@@ -72,6 +86,8 @@ export const buildAdminSideDetailedProduct = async function (
     price,
     quantity,
     images,
+    rating,
+    testimonials,
     createdAt,
     updatedAt,
   };

@@ -1,6 +1,7 @@
-import { CategoryDocumentPopulator, CategoryModel } from "../category";
 import { IProductDocument } from "./data-access";
 import { Model, PopulateOptions } from "mongoose";
+import { CategoryDocumentPopulator, CategoryModel } from "../category";
+import { TestimonialDocumentPopulator, TestimonialModel } from "../testimonial";
 
 /**
  * ProductDocumentPopulator
@@ -18,6 +19,11 @@ export default class ProductDocumentPopulator {
       path: "categories",
       model: CategoryModel,
       populate: CategoryDocumentPopulator.getSummaryPopulateOptions(),
+    },
+    {
+      path: "testimonials",
+      model: TestimonialModel,
+      populate: TestimonialDocumentPopulator.getSummaryPopulateOptions(),
     },
   ];
 
@@ -56,6 +62,6 @@ export default class ProductDocumentPopulator {
   public static readonly isPopulatedForDetailed = (
     document: IProductDocument
   ): boolean => {
-    return document.populated("categories");
+    return document.populated("categories" && "testimonials");
   };
 }

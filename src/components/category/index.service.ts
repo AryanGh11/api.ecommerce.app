@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { ProductService } from "../product";
 
 import {
   CategoryModel,
@@ -22,12 +23,12 @@ import {
 } from "./index.errors";
 
 import {
+  ICategoryQuery,
   ICategoryCreatePayload,
   ICategoryUpdatePayload,
   ICategoryAdminSideSummary,
   ICategoryAdminSideDetailed,
 } from "./index.interfaces";
-import { ProductService } from "../product";
 
 export class CategoryService {
   private readonly repositoryService = new RepositoryService<
@@ -35,7 +36,8 @@ export class CategoryService {
     ICategoryUpdatePayload,
     ICategoryDocument,
     ICategoryStaticMethods,
-    CategoryDocumentsNotFoundError
+    CategoryDocumentsNotFoundError,
+    ICategoryQuery
   >({
     model: CategoryModel,
     fabricateResourceNotFoundError: () => new CategoryDocumentsNotFoundError(),
@@ -131,6 +133,9 @@ export class CategoryService {
   }
 
   async delete(id: string): Promise<void> {
+    // Remove category from all products
+    await ProductService.removeCategoriesFromProducts([id.toObjectId()]);
+
     return await this.repositoryService.delete(id);
   }
 
@@ -158,6 +163,23 @@ export class CategoryService {
       { _id: categoriesIds },
       {
         $push: {
+          products: productsIds,
+        },
+      }
+    );
+  };
+
+  /**
+   * Remove products from all categories
+   * @param productsIds
+   */
+  public static readonly removeProductsFromCategories = async (
+    productsIds: Types.ObjectId[]
+  ): Promise<void> => {
+    await CategoryModel.updateMany(
+      {},
+      {
+        $pullAll: {
           products: productsIds,
         },
       }

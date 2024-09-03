@@ -1,37 +1,20 @@
 import AppError from "../../common/errors/appError";
 
-import { Model, Document, UpdateQuery } from "mongoose";
+import { Model, Document, UpdateQuery, FilterQuery } from "mongoose";
 
 import {
+  IBaseAdminSideQuery,
   IRepositoryServiceOverviewRes,
   IRepositoryServiceRequiredModelStaticMethods,
 } from "./index.interfaces";
 
-/**
- * Represents a generic repository service for managing documents.
- *
- * It implements the `IRepositoryService` interface and provides
- * default implementations for the methods defined in the interface.
- *
- * You should prefer composition over inheritance when using this class and avoid
- * extending it directly. Instead, create a new instance of this class and use its
- * methods for default behavior.
- *
- * @template I - The plain interface of the model.
- * @template IDocument - The type of the document that the repository service manages.
- * @template IStaticMethods - The type of the static methods required by the repository service.
- * @template CreateOnePayload - The type of the payload used for creating a single document.
- * @template UpdateOnePayload - The type of the payload used for updating a single document.
- * @template UpdateManyPayload - The type of the payload used for updating multiple documents.
- *
- * @implements {IRepositoryService}
- */
 export class RepositoryService<
   ICreatePayload,
   IUpdatePayload,
   IDocument extends Document,
   IStaticMethods extends IRepositoryServiceRequiredModelStaticMethods<IDocument>,
-  ResourceNotFoundError extends AppError
+  ResourceNotFoundError extends AppError,
+  IQuery extends IBaseAdminSideQuery
 > {
   private readonly model: IStaticMethods & Model<IDocument, {}>;
   private readonly fabricateResourceNotFoundError: () => ResourceNotFoundError;
@@ -47,8 +30,12 @@ export class RepositoryService<
     this.fabricateResourceNotFoundError = fabricateResourceNotFoundError;
   }
 
-  async getAll(): Promise<IRepositoryServiceOverviewRes<IDocument>> {
-    const documents = await this.model.find();
+  async getAll({
+    filter,
+  }: {
+    filter?: FilterQuery<IQuery>;
+  } = {}): Promise<IRepositoryServiceOverviewRes<IDocument>> {
+    const documents = await this.model.find(filter ?? {});
     const total = documents.length;
 
     this.model.populateForSummary(documents);

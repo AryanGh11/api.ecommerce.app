@@ -1,6 +1,7 @@
 import { IProductAdminSideSummary } from "../product/index.interfaces";
 
 import {
+  IBaseAdminSideQuery,
   IBaseAdminSideSummary,
   IBaseAdminSideDetailed,
 } from "../../composable/repository-service";
@@ -25,3 +26,9 @@ export interface ICategoryCreatePayload {
 
 export interface ICategoryUpdatePayload
   extends Partial<ICategoryCreatePayload> {}
+
+export interface ICategoryQuery extends IBaseAdminSideQuery {
+  title?: string;
+  key?: string;
+  products?: string;
+}

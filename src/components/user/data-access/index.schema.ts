@@ -3,8 +3,8 @@ import UserConstraintsProvider from "../index.constraintsProvider";
 
 import { Schema } from "mongoose";
 import { hydrateSchema } from "../index.schemaHydrator";
-import { USER, USERS } from "../../../constants/mongoose";
 import { PasswordService } from "../../../libraries/password";
+import { TESTIMONIAL, USER, USERS } from "../../../constants/mongoose";
 
 import {
   IUserModel,
@@ -61,6 +61,12 @@ export const schema = new Schema<
       required: true,
       type: Boolean,
       default: false,
+    },
+    testimonials: {
+      required: true,
+      type: [Schema.Types.ObjectId],
+      ref: TESTIMONIAL,
+      default: [],
     },
   },
   {

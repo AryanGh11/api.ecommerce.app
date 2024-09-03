@@ -1,4 +1,7 @@
+import { ITestimonialAdminSideSummary } from "../testimonial";
+
 import {
+  IBaseAdminSideQuery,
   IBaseAdminSideSummary,
   IBaseAdminSideDetailed,
 } from "../../composable/repository-service";
@@ -15,6 +18,7 @@ export interface IUserAdminSideDetailed extends IBaseAdminSideDetailed {
   email: string;
   authToken: string;
   isEmailVerified: boolean;
+  testimonials: ITestimonialAdminSideSummary[];
 }
 
 export interface IUserCreatePayload {
@@ -25,3 +29,9 @@ export interface IUserCreatePayload {
 }
 
 export interface IUserUpdatePayload extends Partial<IUserCreatePayload> {}
+
+export interface IUserQuery extends IBaseAdminSideQuery {
+  nickname?: string;
+  username?: string;
+  email?: string;
+}

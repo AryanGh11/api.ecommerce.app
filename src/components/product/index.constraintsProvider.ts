@@ -24,4 +24,11 @@ export default class ProductConstraintsProvider {
       min: 0,
     };
   }
+
+  static get rating() {
+    return {
+      min: 0,
+      max: 5,
+    };
+  }
 }

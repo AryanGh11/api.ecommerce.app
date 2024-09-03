@@ -9,6 +9,7 @@ export interface IUser extends IBaseSchema {
   password: string;
   authToken: string;
   isEmailVerified: boolean;
+  testimonials: Types.ObjectId[];
 }
 
 export interface IUserDocument extends IUser, Document {
@@ -18,6 +19,4 @@ export interface IUserDocument extends IUser, Document {
 export type IUserModel = IUserStaticMethods & Model<IUserDocument>;
 
 export interface IUserStaticMethods
-  extends IRepositoryServiceRequiredModelStaticMethods<IUserDocument> {
-  validateAndCleanUpBeforeDeletion(this: IUserModel): Promise<void>;
-}
+  extends IRepositoryServiceRequiredModelStaticMethods<IUserDocument> {}

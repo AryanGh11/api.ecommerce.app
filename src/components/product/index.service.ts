@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import { FilterQuery, Types } from "mongoose";
 import { CategoryService } from "../category";
 import { ProductDocumentsNotFoundError } from "./index.errors";
 
@@ -19,6 +19,7 @@ import {
 } from "./data-access";
 
 import {
+  IProductQuery,
   IProductCreatePayload,
   IProductUpdatePayload,
   IProductAdminSideSummary,
@@ -31,16 +32,29 @@ export class ProductService {
     IProductUpdatePayload,
     IProductDocument,
     IProductStaticMethods,
-    ProductDocumentsNotFoundError
+    ProductDocumentsNotFoundError,
+    IProductQuery
   >({
     model: ProductModel,
     fabricateResourceNotFoundError: () => new ProductDocumentsNotFoundError(),
   });
 
-  async getAll(): Promise<
-    IRepositoryServiceOverviewRes<IProductAdminSideSummary>
-  > {
-    const documents = await this.repositoryService.getAll();
+  async getAll({
+    query,
+  }: {
+    query: IProductQuery;
+  }): Promise<IRepositoryServiceOverviewRes<IProductAdminSideSummary>> {
+    const filter: FilterQuery<IProductDocument> = {};
+
+    if (query.title) {
+      filter.title = { $regex: query.title, $options: "i" };
+    }
+
+    if (query.categories) {
+      filter.categories = { $in: query.categories.split(",") };
+    }
+
+    const documents = await this.repositoryService.getAll({ filter });
 
     const total = documents.total;
     const data = documents.data.map((doc) => buildAdminSideSummaryProduct(doc));
@@ -97,6 +111,9 @@ export class ProductService {
   }
 
   async delete(id: string): Promise<void> {
+    // Remove product from all categories
+    await CategoryService.removeProductsFromCategories([id.toObjectId()]);
+
     return await this.repositoryService.delete(id);
   }
 
@@ -125,6 +142,45 @@ export class ProductService {
       {
         $push: {
           categories: categoriesIds,
+        },
+      }
+    );
+  };
+
+  /**
+   * Remove categories from all products
+   * @param categoriesIds
+   */
+  public static readonly removeCategoriesFromProducts = async (
+    categoriesIds: Types.ObjectId[]
+  ): Promise<void> => {
+    await ProductModel.updateMany(
+      {},
+      {
+        $pullAll: {
+          categories: categoriesIds,
+        },
+      }
+    );
+  };
+
+  /**
+   * Add testimonial to the product
+   * @param productId
+   * @param testimonialId
+   */
+  public static readonly addTestimonialToProduct = async ({
+    testimonialId,
+    productId,
+  }: {
+    productId: Types.ObjectId;
+    testimonialId: Types.ObjectId;
+  }): Promise<void> => {
+    await ProductModel.updateOne(
+      { _id: productId },
+      {
+        $push: {
+          testimonials: testimonialId,
         },
       }
     );

@@ -15,6 +15,4 @@ export interface ICategoryDocument extends ICategory, Document {
 export type ICategoryModel = ICategoryStaticMethods & Model<ICategoryDocument>;
 
 export interface ICategoryStaticMethods
-  extends IRepositoryServiceRequiredModelStaticMethods<ICategoryDocument> {
-  validateAndCleanUpBeforeDeletion(this: ICategoryModel): Promise<void>;
-}
+  extends IRepositoryServiceRequiredModelStaticMethods<ICategoryDocument> {}

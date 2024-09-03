@@ -1,5 +1,6 @@
 import { IUserDocument } from "./data-access";
 import { Model, PopulateOptions } from "mongoose";
+import { TestimonialDocumentPopulator, TestimonialModel } from "../testimonial";
 
 /**
  * UserDocumentPopulator
@@ -13,6 +14,11 @@ export default class UserDocumentPopulator {
 
   public static readonly getDetailedPopulateOptions = (): PopulateOptions[] => [
     ...UserDocumentPopulator.getSummaryPopulateOptions(),
+    {
+      path: "testimonials",
+      model: TestimonialModel,
+      populate: TestimonialDocumentPopulator.getSummaryPopulateOptions(),
+    },
   ];
 
   public static readonly populateForSummary = async (
@@ -48,6 +54,6 @@ export default class UserDocumentPopulator {
   public static readonly isPopulatedForDetailed = (
     document: IUserDocument
   ): boolean => {
-    return this.isPopulatedForSummary(document);
+    return document.populated("testimonials");
   };
 }

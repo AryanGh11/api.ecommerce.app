@@ -1,72 +1,66 @@
 import ErrorHandler from "../../libraries/error-handler";
 
-import { ProductService } from "./index.service";
+import { TestimonialService } from "./index.service";
 import { Router, Request, Response } from "express";
+import { validateCreate, validateGetOne, validateUpdate } from "./api";
 import { resourceSuccessfullyDeleted } from "../../constants/resourceSuccessfullyDeleted";
 
 import {
-  validateCreate,
-  validateGetAll,
-  validateGetOne,
-  validateUpdate,
-} from "./api";
-
-import {
-  IProductCreatePayload,
-  IProductUpdatePayload,
+  ITestimonialCreatePayload,
+  ITestimonialUpdatePayload,
 } from "./index.interfaces";
 
 export const router = Router();
 
-const service = new ProductService();
+const service = new TestimonialService();
 
-// Get all products
-router.get("/", validateGetAll, async (req: Request, res: Response) => {
+// Get all testimonials
+router.get("/", async (req: Request, res: Response) => {
   try {
-    const products = await service.getAll({ query: req.query });
-    res.json(products);
+    const testimonials = await service.getAll();
+    res.json(testimonials);
   } catch (e) {
     ErrorHandler.handleError(e, res);
   }
 });
 
-// Get product by id
+// Get testimonial by id
 router.get("/:id", validateGetOne, async (req: Request, res: Response) => {
   try {
-    const product = await service.getOne(req.params.id);
-    res.json(product);
+    const testimonial = await service.getOne(req.params.id);
+    res.json(testimonial);
   } catch (e) {
     ErrorHandler.handleError(e, res);
   }
 });
 
-// Create a new product
+// Create a new testimonial
 router.post("/", validateCreate, async (req: Request, res: Response) => {
   try {
-    const payload: IProductCreatePayload = req.body;
-    const product = await service.create(payload);
-    res.json(product);
+    const payload: ITestimonialCreatePayload = req.body;
+    const testimonial = await service.create(payload);
+    res.json(testimonial);
   } catch (e) {
     ErrorHandler.handleError(e, res);
   }
 });
 
-// Update a product
+// Update a testimonial
 router.put("/:id", validateUpdate, async (req: Request, res: Response) => {
   try {
     const id: string = req.params.id;
-    const payload: IProductUpdatePayload = req.body;
-    const product = await service.update({
+    const payload: ITestimonialUpdatePayload = req.body;
+    const testimonial = await service.update({
       id,
       payload,
     });
-    res.json(product);
+    res.json(testimonial);
   } catch (e) {
     ErrorHandler.handleError(e, res);
   }
 });
 
-// Delete a product
+// Delete a testimonial
 router.delete("/:id", async (req: Request, res: Response) => {
   try {
     await service.delete(req.params.id);

@@ -9,6 +9,8 @@ export interface IProduct extends IBaseSchema {
   price: number;
   quantity: number;
   images: string[];
+  rating: number;
+  testimonials: Types.ObjectId[];
 }
 
 export interface IProductDocument extends IProduct, Document {
@@ -18,6 +20,4 @@ export interface IProductDocument extends IProduct, Document {
 export type IProductModel = IProductStaticMethods & Model<IProductDocument>;
 
 export interface IProductStaticMethods
-  extends IRepositoryServiceRequiredModelStaticMethods<IProductDocument> {
-  validateAndCleanUpBeforeDeletion(this: IProductModel): Promise<void>;
-}
+  extends IRepositoryServiceRequiredModelStaticMethods<IProductDocument> {}

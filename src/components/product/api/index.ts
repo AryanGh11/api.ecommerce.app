@@ -1,3 +1,8 @@
-import { validateGetOne, validateCreate, validateUpdate } from "./index.api";
+import {
+  validateGetAll,
+  validateGetOne,
+  validateCreate,
+  validateUpdate,
+} from "./index.api";
 
-export { validateGetOne, validateCreate, validateUpdate };
+export { validateGetAll, validateGetOne, validateCreate, validateUpdate };

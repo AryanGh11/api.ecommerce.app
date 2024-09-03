@@ -24,3 +24,7 @@ export interface IBaseAdminSideSummary {
 }
 
 export interface IBaseAdminSideDetailed extends IBaseAdminSideSummary {}
+
+export interface IBaseAdminSideQuery {
+  id?: string;
+}

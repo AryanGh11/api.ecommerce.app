@@ -1,7 +1,6 @@
 import crypto from "crypto";
 
-import { EmailService } from "../email";
-import { PasswordService } from "../../libraries/password";
+import { Types } from "mongoose";
 import { UserModel, IUserDocument, IUserStaticMethods } from "./data-access";
 
 import {
@@ -15,14 +14,13 @@ import {
 } from "../../composable/repository-service";
 
 import {
-  UserInvalidPasswordError,
   UserDocumentsNotFoundError,
   UserEmailAlreadyExistError,
   UserUsernameAlreadyExistError,
-  UserEmailAlreadyVerifiedError,
 } from "./index.errors";
 
 import {
+  IUserQuery,
   IUserCreatePayload,
   IUserUpdatePayload,
   IUserAdminSideSummary,
@@ -35,7 +33,8 @@ export class UserService {
     IUserUpdatePayload,
     IUserDocument,
     IUserStaticMethods,
-    UserDocumentsNotFoundError
+    UserDocumentsNotFoundError,
+    IUserQuery
   >({
     model: UserModel,
     fabricateResourceNotFoundError: () => new UserDocumentsNotFoundError(),
@@ -135,4 +134,26 @@ export class UserService {
   async delete(id: string): Promise<void> {
     return await this.repositoryService.delete(id);
   }
+
+  /**
+   * Add testimonial to the user
+   * @param userId
+   * @param testimonialId
+   */
+  public static readonly addTestimonialToUser = async ({
+    testimonialId,
+    userId,
+  }: {
+    userId: Types.ObjectId;
+    testimonialId: Types.ObjectId;
+  }): Promise<void> => {
+    await UserModel.updateOne(
+      { _id: userId },
+      {
+        $push: {
+          testimonials: testimonialId,
+        },
+      }
+    );
+  };
 }

@@ -3,7 +3,13 @@ import ProductConstraintsProvider from "../index.constraintsProvider";
 
 import { Schema } from "mongoose";
 import { hydrateSchema } from "../index.schemaHydrator";
-import { CATEGORY, PRODUCT, PRODUCTS } from "../../../constants/mongoose";
+
+import {
+  PRODUCT,
+  CATEGORY,
+  PRODUCTS,
+  TESTIMONIAL,
+} from "../../../constants/mongoose";
 
 import {
   IProductModel,
@@ -48,6 +54,19 @@ export const schema = new Schema<
     images: {
       required: true,
       type: [String],
+    },
+    rating: {
+      required: true,
+      type: Number,
+      min: ProductConstraintsProvider.rating.min,
+      max: ProductConstraintsProvider.rating.max,
+      default: 0,
+    },
+    testimonials: {
+      required: true,
+      type: [Schema.Types.ObjectId],
+      ref: TESTIMONIAL,
+      default: [],
     },
   },
   {

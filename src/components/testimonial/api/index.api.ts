@@ -1,22 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import {
-  getAllSchema,
-  getOneSchema,
-  createSchema,
-  updateSchema,
-} from "./index.validations";
-
-export const validateGetAll = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { error } = getAllSchema.validate(req.params.id);
-  if (error) {
-    return res.status(400).json({ error: error.details[0].message });
-  }
-  next();
-};
+import { getOneSchema, createSchema, updateSchema } from "./index.validations";
 
 export const validateGetOne = (
   req: Request,

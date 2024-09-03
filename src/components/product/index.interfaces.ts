@@ -1,6 +1,8 @@
 import { ICategoryAdminSideSummary } from "../category";
+import { ITestimonialAdminSideSummary } from "../testimonial";
 
 import {
+  IBaseAdminSideQuery,
   IBaseAdminSideSummary,
   IBaseAdminSideDetailed,
 } from "../../composable/repository-service";
@@ -12,6 +14,8 @@ export interface IProductAdminSideSummary extends IBaseAdminSideSummary {
   price: number;
   quantity: number;
   images: string[];
+  rating: number;
+  testimonialsCount: number;
 }
 
 export interface IProductAdminSideDetailed extends IBaseAdminSideDetailed {
@@ -21,6 +25,8 @@ export interface IProductAdminSideDetailed extends IBaseAdminSideDetailed {
   price: number;
   quantity: number;
   images: string[];
+  rating: number;
+  testimonials: ITestimonialAdminSideSummary[];
 }
 
 export interface IProductCreatePayload {
@@ -32,4 +38,11 @@ export interface IProductCreatePayload {
   images: string[];
 }
 
-export interface IProductUpdatePayload extends Partial<IProductCreatePayload> {}
+export interface IProductUpdatePayload extends Partial<IProductCreatePayload> {
+  rating?: number;
+}
+
+export interface IProductQuery extends IBaseAdminSideQuery {
+  title?: string;
+  categories?: string;
+}

@@ -7,6 +7,12 @@ import {
   IUserAdminSideDetailed,
 } from "./index.interfaces";
 
+import {
+  ITestimonialDocument,
+  ITestimonialAdminSideSummary,
+  buildAdminSideSummaryTestimonial,
+} from "../testimonial";
+
 export const buildAdminSideSummaryUser = function (
   document: IUserDocument
 ): IUserAdminSideSummary {
@@ -37,12 +43,17 @@ export const buildAdminSideDetailedUser = async function (
   if (!UserDocumentPopulator.isPopulatedForDetailed(document))
     await UserDocumentPopulator.populateForDetailed(document);
 
+  const populatedTestimonials =
+    document.testimonials as unknown as ITestimonialDocument[];
+
   const id: string = document._id.toString();
   const nickname: string = document.nickname;
   const username: string = document.username;
   const email: string = document.email;
   const authToken: string = document.authToken;
   const isEmailVerified: boolean = document.isEmailVerified;
+  const testimonials: ITestimonialAdminSideSummary[] =
+    populatedTestimonials.map((doc) => buildAdminSideSummaryTestimonial(doc));
   const createdAt = document.createdAt.toISOString();
   const updatedAt = document.updatedAt.toISOString();
 
@@ -53,6 +64,7 @@ export const buildAdminSideDetailedUser = async function (
     email,
     authToken,
     isEmailVerified,
+    testimonials,
     createdAt,
     updatedAt,
   };

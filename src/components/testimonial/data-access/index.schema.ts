@@ -46,6 +46,13 @@ export const schema = new Schema<
       type: Schema.Types.ObjectId,
       ref: PRODUCT,
     },
+    rating: {
+      required: true,
+      type: Number,
+      min: TestimonialConstraintsProvider.rating.min,
+      max: TestimonialConstraintsProvider.rating.max,
+      default: 0,
+    },
   },
   {
     timestamps: true,

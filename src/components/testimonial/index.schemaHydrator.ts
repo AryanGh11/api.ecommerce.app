@@ -37,6 +37,7 @@ export const buildAdminSideSummaryTestimonial = function (
   const user: IUserAdminSideSummary = buildAdminSideSummaryUser(populatedUser);
   const product: IProductAdminSideSummary =
     buildAdminSideSummaryProduct(populatedProduct);
+  const rating: number = document.rating;
   const createdAt = document.createdAt.toISOString();
   const updatedAt = document.updatedAt.toISOString();
 
@@ -46,6 +47,7 @@ export const buildAdminSideSummaryTestimonial = function (
     body,
     user,
     product,
+    rating,
     createdAt,
     updatedAt,
   };

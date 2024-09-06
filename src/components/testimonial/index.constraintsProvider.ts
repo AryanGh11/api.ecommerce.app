@@ -12,4 +12,11 @@ export default class TestimonialConstraintsProvider {
       maxlength: 20000,
     };
   }
+
+  static get rating() {
+    return {
+      min: 0,
+      max: 5,
+    };
+  }
 }

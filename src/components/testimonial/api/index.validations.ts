@@ -20,6 +20,10 @@ export const createSchema = RichJoi.object<ITestimonialCreatePayload>({
     .required(),
   user: RichJoi.objectId().required(),
   product: RichJoi.objectId().required(),
+  rating: RichJoi.number()
+    .min(TestimonialConstraintsProvider.rating.min)
+    .max(TestimonialConstraintsProvider.rating.max)
+    .required(),
 }).required();
 
 export const updateSchema = RichJoi.object<ITestimonialUpdatePayload>({
@@ -31,4 +35,8 @@ export const updateSchema = RichJoi.object<ITestimonialUpdatePayload>({
     .min(TestimonialConstraintsProvider.body.minlength)
     .max(TestimonialConstraintsProvider.body.maxlength)
     .optional(),
+  rating: RichJoi.number()
+    .min(TestimonialConstraintsProvider.rating.min)
+    .max(TestimonialConstraintsProvider.rating.max)
+    .required(),
 }).required();

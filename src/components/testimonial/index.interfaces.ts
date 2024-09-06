@@ -11,6 +11,7 @@ export interface ITestimonialAdminSideSummary extends IBaseAdminSideSummary {
   body: string;
   user: IUserAdminSideSummary;
   product: IProductAdminSideSummary;
+  rating: number;
 }
 
 export interface ITestimonialAdminSideDetailed
@@ -21,11 +22,13 @@ export interface ITestimonialCreatePayload {
   body: string;
   user: string;
   product: string;
+  rating: number;
 }
 
 export interface ITestimonialUpdatePayload {
   title?: string;
   body?: string;
+  rating?: number;
 }
 
 export interface ITestimonialQuery extends IBaseAdminSideQuery {

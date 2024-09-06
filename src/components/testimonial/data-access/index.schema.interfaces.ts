@@ -7,6 +7,7 @@ export interface ITestimonial extends IBaseSchema {
   body: string;
   user: Types.ObjectId;
   product: Types.ObjectId;
+  rating: number;
 }
 
 export interface ITestimonialDocument extends ITestimonial, Document {

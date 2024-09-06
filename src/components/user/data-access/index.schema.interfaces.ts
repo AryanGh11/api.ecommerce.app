@@ -10,6 +10,7 @@ export interface IUser extends IBaseSchema {
   authToken: string;
   isEmailVerified: boolean;
   testimonials: Types.ObjectId[];
+  avatarUrl: string;
 }
 
 export interface IUserDocument extends IUser, Document {

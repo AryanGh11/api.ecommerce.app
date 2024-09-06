@@ -10,6 +10,7 @@ export interface IUserAdminSideSummary extends IBaseAdminSideSummary {
   nickname: string;
   username: string;
   email: string;
+  avatarUrl: string;
 }
 
 export interface IUserAdminSideDetailed extends IBaseAdminSideDetailed {
@@ -19,6 +20,7 @@ export interface IUserAdminSideDetailed extends IBaseAdminSideDetailed {
   authToken: string;
   isEmailVerified: boolean;
   testimonials: ITestimonialAdminSideSummary[];
+  avatarUrl: string;
 }
 
 export interface IUserCreatePayload {

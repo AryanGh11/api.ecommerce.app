@@ -68,6 +68,11 @@ export const schema = new Schema<
       ref: TESTIMONIAL,
       default: [],
     },
+    avatarUrl: {
+      required: true,
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,

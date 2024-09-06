@@ -22,6 +22,7 @@ export const buildAdminSideSummaryUser = function (
   const nickname: string = document.nickname;
   const username: string = document.username;
   const email: string = document.email;
+  const avatarUrl: string = document.avatarUrl;
   const createdAt = document.createdAt.toISOString();
   const updatedAt = document.updatedAt.toISOString();
 
@@ -30,6 +31,7 @@ export const buildAdminSideSummaryUser = function (
     nickname,
     username,
     email,
+    avatarUrl,
     createdAt,
     updatedAt,
   };
@@ -54,6 +56,7 @@ export const buildAdminSideDetailedUser = async function (
   const isEmailVerified: boolean = document.isEmailVerified;
   const testimonials: ITestimonialAdminSideSummary[] =
     populatedTestimonials.map((doc) => buildAdminSideSummaryTestimonial(doc));
+  const avatarUrl: string = document.avatarUrl;
   const createdAt = document.createdAt.toISOString();
   const updatedAt = document.updatedAt.toISOString();
 
@@ -65,6 +68,7 @@ export const buildAdminSideDetailedUser = async function (
     authToken,
     isEmailVerified,
     testimonials,
+    avatarUrl,
     createdAt,
     updatedAt,
   };

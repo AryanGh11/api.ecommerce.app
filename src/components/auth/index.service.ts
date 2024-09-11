@@ -98,7 +98,7 @@ export class AuthService {
     }
 
     const subject = "Email verification";
-    const text = `Please click the following link to verify your email: <a href="${process.env.BASE_URL}/users/auth/verify-email?authToken=${user.authToken}">Click here</a>`;
+    const text = `Please click the following link to verify your email: <a href="${process.env.BASE_URL}/auth/verify-email?authToken=${user.authToken}">Click here</a>`;
 
     await EmailService.sendEmail({ to: email, subject, text });
   }

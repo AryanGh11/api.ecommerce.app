@@ -71,7 +71,8 @@ export const schema = new Schema<
     avatarUrl: {
       required: true,
       type: String,
-      default: "",
+      default:
+        "https://aui.atlassian.com/aui/8.8/docs/images/avatar-person.svg",
     },
   },
   {

@@ -6,6 +6,7 @@ import { userRouter } from "./components/user";
 import { introRouter } from "./components/intro";
 import { productRouter } from "./components/product";
 import { categoryRouter } from "./components/category";
+import { overviewRouter } from "./components/overview";
 import { testimonialRouter } from "./components/testimonial";
 
 const router = express.Router();
@@ -16,5 +17,6 @@ router.use("/products", authMiddleware, productRouter);
 router.use("/testimonials", authMiddleware, testimonialRouter);
 router.use("/users", authMiddleware, userRouter);
 router.use("/intros", introRouter);
+router.use("/overview", overviewRouter);
 
 export default router;

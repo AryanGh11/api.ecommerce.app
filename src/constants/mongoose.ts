@@ -2,6 +2,10 @@
 export const CATEGORY = "category";
 export const CATEGORIES = "categories";
 
+// INTRO
+export const INTRO = "intro";
+export const INTROS = "intros";
+
 // PRODUCT
 export const PRODUCT = "product";
 export const PRODUCTS = "products";

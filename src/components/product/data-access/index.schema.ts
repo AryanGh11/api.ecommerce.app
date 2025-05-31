@@ -68,6 +68,18 @@ export const schema = new Schema<
       ref: TESTIMONIAL,
       default: [],
     },
+    likes: {
+      required: true,
+      type: Number,
+      min: ProductConstraintsProvider.likes.min,
+      default: 0,
+    },
+    views: {
+      required: true,
+      type: Number,
+      min: ProductConstraintsProvider.views.min,
+      default: 0,
+    },
   },
   {
     timestamps: true,

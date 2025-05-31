@@ -31,4 +31,16 @@ export default class ProductConstraintsProvider {
       max: 5,
     };
   }
+
+  static get likes() {
+    return {
+      min: 0,
+    };
+  }
+
+  static get views() {
+    return {
+      min: 0,
+    };
+  }
 }

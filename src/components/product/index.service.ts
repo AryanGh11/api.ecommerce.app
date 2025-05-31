@@ -42,15 +42,15 @@ export class ProductService {
   async getAll({
     query,
   }: {
-    query: IProductQuery;
+    query?: IProductQuery;
   }): Promise<IRepositoryServiceOverviewRes<IProductAdminSideSummary>> {
     const filter: FilterQuery<IProductDocument> = {};
 
-    if (query.title) {
+    if (query?.title) {
       filter.title = { $regex: query.title, $options: "i" };
     }
 
-    if (query.categories) {
+    if (query?.categories) {
       filter.categories = { $in: query.categories.split(",") };
     }
 

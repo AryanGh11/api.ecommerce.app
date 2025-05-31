@@ -11,6 +11,8 @@ export interface IProduct extends IBaseSchema {
   images: string[];
   rating: number;
   testimonials: Types.ObjectId[];
+  likes: number;
+  views: number;
 }
 
 export interface IProductDocument extends IProduct, Document {

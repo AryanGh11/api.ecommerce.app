@@ -12,10 +12,11 @@ import {
   ICategoryAdminSideSummary,
   buildAdminSideSummaryCategory,
 } from "../category";
+
 import {
-  buildAdminSideSummaryTestimonial,
-  ITestimonialAdminSideSummary,
   ITestimonialDocument,
+  ITestimonialAdminSideSummary,
+  buildAdminSideSummaryTestimonial,
 } from "../testimonial";
 
 export const buildAdminSideSummaryProduct = function (
@@ -32,6 +33,8 @@ export const buildAdminSideSummaryProduct = function (
   const images: string[] = document.images;
   const rating: number = document.rating;
   const testimonialsCount: number = document.testimonials.length;
+  const likes: number = document.likes;
+  const views: number = document.views;
   const createdAt = document.createdAt.toISOString();
   const updatedAt = document.updatedAt.toISOString();
 
@@ -45,6 +48,8 @@ export const buildAdminSideSummaryProduct = function (
     images,
     rating,
     testimonialsCount,
+    likes,
+    views,
     createdAt,
     updatedAt,
   };
@@ -75,6 +80,8 @@ export const buildAdminSideDetailedProduct = async function (
   const rating: number = document.rating;
   const testimonials: ITestimonialAdminSideSummary[] =
     populatedTestimonials.map((doc) => buildAdminSideSummaryTestimonial(doc));
+  const likes: number = document.likes;
+  const views: number = document.views;
   const createdAt = document.createdAt.toISOString();
   const updatedAt = document.updatedAt.toISOString();
 
@@ -88,6 +95,8 @@ export const buildAdminSideDetailedProduct = async function (
     images,
     rating,
     testimonials,
+    likes,
+    views,
     createdAt,
     updatedAt,
   };

@@ -16,6 +16,8 @@ export interface IProductAdminSideSummary extends IBaseAdminSideSummary {
   images: string[];
   rating: number;
   testimonialsCount: number;
+  likes: number;
+  views: number;
 }
 
 export interface IProductAdminSideDetailed extends IBaseAdminSideDetailed {
@@ -27,6 +29,8 @@ export interface IProductAdminSideDetailed extends IBaseAdminSideDetailed {
   images: string[];
   rating: number;
   testimonials: ITestimonialAdminSideSummary[];
+  likes: number;
+  views: number;
 }
 
 export interface IProductCreatePayload {
